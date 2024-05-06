@@ -104,7 +104,7 @@
                 "tags": [
                     "Резервация Товаров"
                 ],
-                "description": "Резервация Товаров",
+                "description": "Разрезервация Товаров",
                 "operationId": "b425070f2dda8918f7a99817253b8cf5",
                 "requestBody": {
                     "content": {
