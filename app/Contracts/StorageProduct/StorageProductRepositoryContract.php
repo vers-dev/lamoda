@@ -12,8 +12,4 @@ interface StorageProductRepositoryContract
      * @return array<StorageProductDto>
      */
     public function getStorageProductCount(int $productId): array;
-
-    public function updateProductCount(UpdateStorageProductCountDto $updateProductCountDto): void;
-
-    public function getProductCountByProductIdAndStorageId(int $productId, int $storageId): int;
 }

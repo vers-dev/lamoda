@@ -19,3 +19,6 @@ copy-env:
 
 down:
 	@docker-compose down
+
+test:
+	@docker-compose exec $(PHP_CONTAINER) php artisan test

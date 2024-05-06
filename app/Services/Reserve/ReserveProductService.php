@@ -6,15 +6,12 @@ use App\Contracts\Product\ProductRepositoryContract;
 use App\Contracts\Reserve\ReserveProductServiceContract;
 use App\Contracts\Reserve\ReserveRepositoryContract;
 use App\Contracts\StorageProduct\StorageProductRepositoryContract;
-use App\Dto\Product\UpdateProductCountDto;
 use App\Dto\Reserve\ReserveProductDto;
 use App\Dto\Reserve\ReserveProductRequestDto;
-use App\Dto\StorageProduct\UpdateStorageProductCountDto;
 use App\Exceptions\Product\NotEnoughProductsException;
 use App\Exceptions\Reserve\UnReserveProductException;
 use App\Helpers\DBTransactionHelper;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 readonly class ReserveProductService implements ReserveProductServiceContract

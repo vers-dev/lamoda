@@ -8,7 +8,6 @@ use App\Exceptions\Reserve\ReserveProductException;
 use App\Exceptions\Reserve\UnReserveProductException;
 use App\Models\Reserve;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 readonly class ReserveRepository implements ReserveRepositoryContract
 {

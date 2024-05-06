@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use App\Dto\Product\ProductDto;
+use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
 
     public function toDto(): ProductDto
     {
@@ -16,5 +20,10 @@ class Product extends Model
             size: $this->size,
             count: $this->count,
         );
+    }
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
     }
 }

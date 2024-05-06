@@ -5,14 +5,19 @@ namespace App\Services\Product;
 use App\Contracts\Product\ProductRepositoryContract;
 use App\Contracts\Product\ProductServiceContract;
 use App\Contracts\Reserve\ReserveRepositoryContract;
+use App\Contracts\Storage\StorageRepositoryContract;
 use App\Dto\Product\ProductInfoDto;
+use App\Exceptions\Storage\StorageUnavailableException;
 use App\Helpers\DBTransactionHelper;
+use Exception;
+use Throwable;
 
 readonly class ProductService implements ProductServiceContract
 {
     public function __construct(
-        private ProductRepositoryContract        $productRepository,
-        private ReserveRepositoryContract        $reserveRepository,
+        private ProductRepositoryContract $productRepository,
+        private ReserveRepositoryContract $reserveRepository,
+        private StorageRepositoryContract $storageRepository,
     )
     {
     }
@@ -25,7 +30,12 @@ readonly class ProductService implements ProductServiceContract
     {
         return DBTransactionHelper::transaction(
             function: function () use ($storageId) {
+                if (!$this->storageRepository->isActiveStorage($storageId)) {
+                    throw new StorageUnavailableException();
+                }
+
                 $products = $this->productRepository->getProductInfoByStorageId($storageId);
+
                 foreach ($products as $product) {
                     $reservedProducts = $this->reserveRepository->getReserveCountByProductIdAndStorageId($product->productId, $storageId);
 
@@ -35,7 +45,8 @@ readonly class ProductService implements ProductServiceContract
 
                 return $products;
             },
-            rollback: function () {
+            rollback: function (Throwable $throwable) {
+                throw new Exception(message: $throwable->getMessage(), previous: $throwable);
             },
             useIsolation: true
         );

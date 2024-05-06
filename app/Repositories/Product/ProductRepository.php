@@ -5,8 +5,7 @@ namespace App\Repositories\Product;
 use App\Contracts\Product\ProductRepositoryContract;
 use App\Dto\Product\ProductDto;
 use App\Dto\Product\ProductInfoDto;
-use App\Dto\Product\UpdateProductCountDto;
-use App\Exceptions\Product\UpdateProductException;
+use App\Exceptions\Product\ProductNotFoundException;
 use App\Models\Product;
 use App\Models\Storage;
 use App\Models\StorageProduct;
@@ -51,25 +50,19 @@ readonly class ProductRepository implements ProductRepositoryContract
             })->toArray();
     }
 
-    public function getProductById(int $productId): ProductDto
-    {
-        return Product::query()
-            ->where('id', $productId)
-            ->first()
-            ->toDto();
-    }
-
     /**
-     * @throws UpdateProductException
+     * @throws ProductNotFoundException
      */
-    public function updateProductCount(UpdateProductCountDto $updateProductCountDto): void
+    public function getProductById(int $productId): ?ProductDto
     {
-        $result = Product::query()
-            ->where('id', $updateProductCountDto->productId)
-            ->update(['count' => $updateProductCountDto->count]);
+        $product = Product::query()
+            ->where('id', $productId)
+            ->first();
 
-        if (!$result) {
-            throw new UpdateProductException();
+        if (is_null($product)) {
+            throw new ProductNotFoundException();
         }
+
+        return $product->toDto();
     }
 }

@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Dto\Reserve\ReserveDto;
+use Database\Factories\ReserveFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Reserve extends Model
 {
+    use HasFactory;
 
     protected $fillable = [
         'product_id',
@@ -21,5 +24,10 @@ class Reserve extends Model
             storageId: $this->storage_id,
             count: $this->count
         );
+    }
+
+    protected static function newFactory(): ReserveFactory
+    {
+        return ReserveFactory::new();
     }
 }
