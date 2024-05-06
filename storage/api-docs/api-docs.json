@@ -1,0 +1,230 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/get-products": {
+            "get": {
+                "tags": [
+                    "Продукты"
+                ],
+                "operationId": "3495ea241e3de7d58c3ed1670b45ed3b",
+                "parameters": [
+                    {
+                        "name": "storage_id",
+                        "in": "query",
+                        "description": "Id Склада",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1,
+                            "nullable": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProductInfoResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка выполнения запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reserve-products": {
+            "post": {
+                "tags": [
+                    "Резервация Товаров"
+                ],
+                "description": "Резервация Товаров",
+                "operationId": "ee1d5b7a4dfaaa7ea5ec02878d10533b",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReserveProductsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка выполнения запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/un-reserve-products": {
+            "post": {
+                "tags": [
+                    "Резервация Товаров"
+                ],
+                "description": "Резервация Товаров",
+                "operationId": "b425070f2dda8918f7a99817253b8cf5",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReserveProductsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка выполнения запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AppException": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Error"
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "ReserveProductsRequest": {
+                "properties": {
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "product_id": {
+                                    "description": "ID Продукта",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "count": {
+                                    "description": "Кол-во продукта",
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "example": 10
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "ProductInfoResource": {
+                "properties": {
+                    "product_id": {
+                        "description": "Id Продукта",
+                        "type": "integer"
+                    },
+                    "product_name": {
+                        "description": "Название продукта",
+                        "type": "string"
+                    },
+                    "product_size": {
+                        "description": "Размер Продукта",
+                        "type": "string"
+                    },
+                    "total_product_count": {
+                        "description": "Общее Кол-во Продуктов",
+                        "type": "integer"
+                    },
+                    "storage_product_count": {
+                        "description": "Кол-во Продуктов На Складе",
+                        "type": "integer"
+                    },
+                    "reserved_product_count": {
+                        "description": "Кол-во Зарезервированных Продуктов На Складе",
+                        "type": "integer"
+                    },
+                    "available_product_count": {
+                        "description": "Кол-во Доступных к резервации Продуктов На Складе",
+                        "type": "integer"
+                    },
+                    "storage_name": {
+                        "description": "Название Склада",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

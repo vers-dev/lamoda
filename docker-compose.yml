@@ -1,5 +1,6 @@
 services:
-    laravel.test:
+    app:
+        container_name: 'lamoda-php'
         build:
             context: ./vendor/laravel/sail/runtimes/8.3
             dockerfile: Dockerfile
@@ -25,6 +26,7 @@ services:
             - pgsql
             - redis
     pgsql:
+        container_name: 'lamoda-postgres'
         image: 'postgres:15'
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
@@ -50,6 +52,7 @@ services:
             retries: 3
             timeout: 5s
     redis:
+        container_name: 'lamoda-redis'
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
